@@ -1,29 +1,15 @@
-/**
- * Created by HaiderNazir on 1/20/2016.
- */
+var bodyParser = require('body-parser');
 var express=require('express');
-var app=express();
-var PORT=process.env.PORT || 3000;
+var app = express();
+var PORT = process.env.PORT || 3000;
+var todos = [];
+var todoNextId = 1;
 
-//---------Todos collection-------------
-var todos=[{
-    id:1,
-    description:'Sstartup owners manual Ch 1',
-    completed:false
-},{
-    id:2,
-    description:'Design Business Model Canvas',
-    completed:false
-},
-    {
-        id:3,
-        description:'Learn Database Section in Nodejs',
-        completed:true
-    }];
+app.use(bodyParser.json());
 
 // Get /todos
 app.get('/todos',function(req,res){
-res.json(todos);
+    res.json(todos);
 });
 
 //Get todo/:id
@@ -50,7 +36,22 @@ app.get('/',function(req,res){
     res.send('To-Do-Api Root');
 });
 
+
+// POST /todos
+app.post('/todos', function (req, res) {
+
+    var body=req.body;
+    body.id=todoNextId++;
+
+    //push body into array
+    todos.push(body);
+
+    //send back to the browser
+    res.json(body);
+
+});
+
 app.listen(PORT,function()
 {
-   console.log('Express Listening on PORT '+PORT);
+    console.log('Express Listening on PORT '+PORT);
 });
