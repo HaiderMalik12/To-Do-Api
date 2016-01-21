@@ -26,6 +26,25 @@ app.get('/todos',function(req,res){
 res.json(todos);
 });
 
+//Get todo/:id
+app.get('/todos/:id',function(req,res){
+    var todoId=parseInt(req.params.id,10);
+    var macthedTodo;
+    todos.forEach(function(todo){
+
+        if(todo.id=== todoId){
+            macthedTodo=todo;
+        }
+    });
+
+    if(macthedTodo){
+        res.json(macthedTodo);
+    }
+    else{
+        res.status(404).send();
+    }
+});
+
 app.get('/',function(req,res){
 
     res.send('To-Do-Api Root');
