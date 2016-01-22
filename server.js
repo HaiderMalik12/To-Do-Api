@@ -9,9 +9,22 @@ var _ =require('underscore');
 
 app.use(bodyParser.json());
 
-// Get /todos
+// Get /todos?completed=true
 app.get('/todos',function(req,res){
-    res.json(todos);
+
+    var qureyParams=req.query;
+    var filterdTodos=todos;
+
+    if(qureyParams.hasOwnProperty('completed') && qureyParams.completed==='true')
+    {
+        filterdTodos= _.where(filterdTodos,{completed:true});
+    }
+    else if(qureyParams.hasOwnProperty('completed') && qureyParams.completed ==='false'){
+        filterdTodos= _.where(filterdTodos,{completed:false});
+    }
+
+    res.json(filterdTodos);
+
 });
 
 //Get todo/:id
